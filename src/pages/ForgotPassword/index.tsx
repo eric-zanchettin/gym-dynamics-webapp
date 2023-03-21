@@ -63,7 +63,7 @@ export function ForgotPassword() {
                         isLoading={isLoading}
                         onClick={handleResetPassword}
                     >
-                        Entrar
+                        Recuperar Senha
                     </Button>
                     <Flex mt={2} align="center" gap={1} transition="0.2s" _hover={{ color: 'primary.500' }}>
                         <Icon as={MdArrowBack} fontSize="1.2rem" />
