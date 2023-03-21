@@ -14,6 +14,7 @@ export function LoginCard({ title, subtitle, children }: LoginCardProps) {
             minH="80vh"
             bg="secondary.400"
             borderRadius="1em"
+            boxShadow="16px 12px 40px -30px rgba(255,255,255,1)"
         >
             <Image src="/assets/gym-login.jpeg" w="34vw" borderRadius="1em 0 0 1em" />
             <Box as="section" w="100%">
