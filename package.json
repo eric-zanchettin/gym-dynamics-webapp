@@ -50,6 +50,7 @@
     ]
   },
   "devDependencies": {
-    "@types/react-helmet": "^6.1.6"
+    "@types/react-helmet": "^6.1.6",
+    "cypress": "^12.8.1"
   }
 }
