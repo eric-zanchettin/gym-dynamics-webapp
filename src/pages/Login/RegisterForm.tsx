@@ -3,6 +3,8 @@ import { Button, FormControl, FormLabel, Grid, } from "@chakra-ui/react";
 import { toast } from "react-toastify";
 import { MdPerson, MdEmail, MdLock } from 'react-icons/md';
 import { PatternInput } from "../../components/Patterns/PatternInput";
+import { api } from "../../services/api";
+import { AxiosError } from "axios";
 
 export function RegisterForm() {
     const [name, setName] = useState<string>('');
@@ -22,11 +24,36 @@ export function RegisterForm() {
             return;
         };
 
-        setIsLoading(() => true);
+        if (!email.includes('@')) {
+            toast.warn('Favor informar um E-mail válido!');
+            return;
+        };
 
-        console.log(name, email, password);
+        try {
+            setIsLoading(() => true);
 
-        setIsLoading(() => false);
+            const data = {
+                name,
+                email,
+                password,
+                admin: false,
+            };
+
+            await api.post('/users', data);
+
+            toast.success('Usuário criado com sucesso!');
+        } catch (err) {
+            if (err instanceof AxiosError) {
+                if (err?.response?.data?.message === 'E-mail already exists.') {
+                    toast.error('O e-mail informado já foi cadastrado em nosso sistema!');
+                    return;
+                };
+            };
+
+            toast.error('Desculpe, não foi possível atender sua solicitação!');
+        } finally {
+            setIsLoading(() => false);
+        };
     };
 
     return (

@@ -4,8 +4,13 @@ import { toast } from "react-toastify";
 import { MdArrowForward, MdEmail, MdLock } from 'react-icons/md';
 import { Link } from "react-router-dom";
 import { PatternInput } from "../../components/Patterns/PatternInput";
+import { api, setupAuthorization } from "../../services/api";
+import { useCookies } from "react-cookie";
+import { AxiosError } from "axios";
 
 export function LoginForm() {
+    const [, setCookies] = useCookies(['loginToken']);
+
     const [email, setEmail] = useState<string>('');
     const [password, setPassword] = useState<string>('');
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -22,11 +27,30 @@ export function LoginForm() {
             return;
         };
 
-        setIsLoading(() => true);
+        try {
+            setIsLoading(() => true);
 
-        console.log(email, password);
+            const { data: token } = await api.post('/login', { email, password });
+            setCookies('loginToken', token, { path: '/' });
+            setupAuthorization(token);
+        } catch (err) {
+            console.log(err);
+            if (err instanceof AxiosError) {
+                if (err?.response?.data?.message === 'User not found.') {
+                    toast.error('Usuário não encontrado!');
+                    return;
+                };
 
-        setIsLoading(() => false);
+                if (err?.response?.data?.message === 'User password does not match.') {
+                    toast.error('A senha informada está incorreta!');
+                    return;
+                };
+            };
+
+            toast.error('Desculpe, não foi possível atender sua solicitação!');
+        } finally {
+            setIsLoading(() => false);
+        };
     };
 
     return (
