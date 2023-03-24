@@ -74,7 +74,7 @@ export function RegisterForm() {
             <FormControl>
                 <FormLabel htmlFor="email">E-mail</FormLabel>
                 <PatternInput
-                    id="email"
+                    id="email-register"
                     name="email"
                     type="email"
                     placeholder="Digite o seu melhor E-mail..."
@@ -87,7 +87,7 @@ export function RegisterForm() {
             <FormControl>
                 <FormLabel htmlFor="password">Senha</FormLabel>
                 <PatternInput
-                    id="password"
+                    id="pass-register"
                     name="password"
                     type="password"
                     placeholder="Informe sua senha..."
@@ -98,6 +98,7 @@ export function RegisterForm() {
                 />
             </FormControl>
             <Button
+                id='submit-register'
                 colorScheme="primary"
                 color="secondary.500"
                 size="lg"

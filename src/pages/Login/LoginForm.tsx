@@ -82,6 +82,7 @@ export function LoginForm() {
                 />
             </FormControl>
             <Button
+                id= "submit"
                 colorScheme="primary"
                 color="secondary.500"
                 size="lg"

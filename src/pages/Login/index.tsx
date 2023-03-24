@@ -14,8 +14,8 @@ export function Login() {
                 <Tabs colorScheme="primary" variant="soft-rounded">
                     <Center mt={8}>
                         <TabList mb="0 !important">
-                            <Tab>Login</Tab>
-                            <Tab>Registre-se</Tab>
+                            <Tab id='login'>Login</Tab>
+                            <Tab id='resgister'>Registre-se</Tab>
                         </TabList>
                     </Center>
 
