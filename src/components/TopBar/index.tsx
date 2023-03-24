@@ -18,7 +18,8 @@ export function TopBar() {
                     <Avatar mr={4} name={decodedUserData?.name} />
                 </MenuButton>
                 <MenuList>
-                    <MenuItem onClick={() => removeCookies('loginToken')}>Sair</MenuItem>
+                    <MenuItem _hover={{ bg: 'primary.400' }}>Preferências</MenuItem>
+                    <MenuItem _hover={{ bg: 'primary.400' }} onClick={() => removeCookies('loginToken')}>Sair</MenuItem>
                 </MenuList>
             </Menu>
         </Flex>
