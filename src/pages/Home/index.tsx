@@ -8,7 +8,7 @@ export function Home() {
             <Helmet>
                 <title>Home | Gym Dynamics</title>
             </Helmet>
-            <Grid m={4} mt={20} h="90vh" gridTemplateColumns="1fr 1fr 1fr 1fr" gap="24px 0">
+            <Grid m={4} mt={20} h="90vh" gridTemplateColumns={["1fr 1fr 1fr", "1fr 1fr 1fr 1fr"]} gap="24px 0">
                 <GymCard
                     id={1}
                     image="https://www.abcdacomunicacao.com.br/wp-content/uploads/bioritmo.jpg"
