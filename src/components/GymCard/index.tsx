@@ -35,7 +35,7 @@ export function GymCard({ gymId, image, name, description, cheaperPlan }: GymCar
                     <Heading size='md' color="primary.500">{name}</Heading>
                     <Text>{description}</Text>
                     <Text color='primary.500' fontSize='2xl'>
-                        R$ {cheaperPlan}/mês
+                        {cheaperPlan <= 0 ? 'Valor não informado' : `R$ ${cheaperPlan}/mês`}
                     </Text>
                 </Stack>
             </CardBody>

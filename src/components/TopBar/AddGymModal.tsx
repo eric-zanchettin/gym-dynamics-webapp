@@ -48,6 +48,11 @@ export function AddGymModal() {
     };
 
     const handleCreateGym = async () => {
+        if (gymName === '' || imgSrc === '' || description === '' || address === '') {
+            toast.warn('Preencha todos os campos!');
+            return;
+        };
+
         setIsLoading(() => true);
 
         try {
