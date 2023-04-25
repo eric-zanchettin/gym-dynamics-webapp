@@ -4,6 +4,8 @@ export const api = axios.create({
     baseURL: 'http://localhost:3333',
 });
 
-export function setupAuthorization(token: string) {
-    api.defaults.headers.common['Authorization'] = `Bearer ${token}`;
+export const setupApiService = {
+    setupHeaders: (token: string) => {
+        api.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    },
 };

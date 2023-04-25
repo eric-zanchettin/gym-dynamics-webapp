@@ -9,7 +9,7 @@ interface Gyms {
     name: string;
     img_src: string;
     description: string;
-    cheaper_plan: string;
+    cheaper_plan: number;
 };
 
 export function Home() {
@@ -34,7 +34,7 @@ export function Home() {
                             image={gym.img_src}
                             name={gym.name}
                             description={gym.description}
-                            cheaperPlan={Number(gym.cheaper_plan)}
+                            cheaperPlan={gym.cheaper_plan}
                         />
                     );
                 })}

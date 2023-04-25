@@ -4,7 +4,7 @@ import { useCookies } from "react-cookie";
 import { Login } from "../pages/Login";
 import { ForgotPassword } from "../pages/ForgotPassword";
 import { Home } from "../pages/Home";
-import { setupAuthorization } from "../services/api";
+import { setupApiService } from "../services/api";
 import { GymDetails } from "../pages/GymDetails";
 
 export default function Router() {
@@ -12,8 +12,8 @@ export default function Router() {
 
     useEffect(() => {
         if (cookies.loginToken) {
-            setupAuthorization(cookies?.loginToken);
-        }
+            setupApiService.setupHeaders(cookies.loginToken);
+        };
     }, [cookies]);
 
     return (
