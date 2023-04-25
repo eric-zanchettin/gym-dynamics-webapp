@@ -4,7 +4,7 @@ import { toast } from "react-toastify";
 import { MdArrowForward, MdEmail, MdLock } from 'react-icons/md';
 import { Link } from "react-router-dom";
 import { PatternInput } from "../../components/Patterns/PatternInput";
-import { api, setupAuthorization } from "../../services/api";
+import { api } from "../../services/api";
 import { useCookies } from "react-cookie";
 import { AxiosError } from "axios";
 
@@ -32,9 +32,7 @@ export function LoginForm() {
 
             const { data: token } = await api.post('/login', { email, password });
             setCookies('loginToken', token, { path: '/' });
-            setupAuthorization(token);
         } catch (err) {
-            console.log(err);
             if (err instanceof AxiosError) {
                 if (err?.response?.data?.message === 'User not found.') {
                     toast.error('Usuário não encontrado!');
@@ -82,7 +80,7 @@ export function LoginForm() {
                 />
             </FormControl>
             <Button
-                id= "submit"
+                id="submit"
                 colorScheme="primary"
                 color="secondary.500"
                 size="lg"

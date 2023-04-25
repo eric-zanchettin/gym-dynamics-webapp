@@ -1,17 +1,24 @@
 import { Card, CardBody, Image, Stack, Heading, Text, Divider, CardFooter, ButtonGroup, Button, Icon } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
+import { useNavigate } from "react-router-dom";
 
 interface GymCardProps {
-    id: number;
+    gymId: string;
     image: string;
     name: string;
     description: string;
     cheaperPlan: number;
 };
 
-export function GymCard({ id, image, name, description, cheaperPlan }: GymCardProps) {
+export function GymCard({ gymId, image, name, description, cheaperPlan }: GymCardProps) {
+    const navigate = useNavigate();
+
     const [mouseOverFav, setMouseOverFav] = useState<boolean>(false);
+
+    const handleViewGym = () => {
+        navigate(`/gym/${gymId}`, { replace: false });
+    };
 
     return (
         <Card bg="secondary.400" maxW="sm" minH="xl">
@@ -28,14 +35,14 @@ export function GymCard({ id, image, name, description, cheaperPlan }: GymCardPr
                     <Heading size='md' color="primary.500">{name}</Heading>
                     <Text>{description}</Text>
                     <Text color='primary.500' fontSize='2xl'>
-                        R$ {cheaperPlan}
+                        R$ {cheaperPlan}/mês
                     </Text>
                 </Stack>
             </CardBody>
             <Divider bg="primary.500" />
             <CardFooter>
                 <ButtonGroup spacing={48}>
-                    <Button variant='solid' colorScheme='primary'>
+                    <Button variant='solid' colorScheme='primary' onClick={handleViewGym}>
                         Visualizar
                     </Button>
                     <Icon
