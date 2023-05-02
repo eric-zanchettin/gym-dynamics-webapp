@@ -9,6 +9,10 @@ export function TopBar() {
     const [cookies, , removeCookies] = useCookies(['loginToken']);
     const { decodedToken: decodedUserData } = useJwt<DecodedUserData>(cookies.loginToken);
 
+    const handleLogout = () => {
+        removeCookies('loginToken', { path: '/' });
+    };
+
     return (
         <Flex justify="space-between" align="center" position="fixed" w="100%" h="60px" bg="rgba(255, 255, 255, 0.8)" top={0} zIndex={5}>
             <Flex align="center" gap={4}>
@@ -25,7 +29,7 @@ export function TopBar() {
                     </MenuButton>
                     <MenuList>
                         <MenuItem _hover={{ bg: 'primary.400' }}>Preferências</MenuItem>
-                        <MenuItem _hover={{ bg: 'primary.400' }} onClick={() => removeCookies('loginToken')}>Sair</MenuItem>
+                        <MenuItem _hover={{ bg: 'primary.400' }} onClick={handleLogout}>Sair</MenuItem>
                     </MenuList>
                 </Menu>
             </HStack>
