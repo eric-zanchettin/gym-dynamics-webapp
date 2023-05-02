@@ -70,6 +70,14 @@ export function GymDetails() {
 
     const handleEditGym = async () => {
         if (!editMode) {
+            if (gymDetails) {
+                if (Number.isNaN(Number(gymDetails.cheaper_plan))) {
+                    gymDetails.cheaper_plan = formatMoney(Number(String(gymDetails?.cheaper_plan).replace(/\D/g, '')) / 100);
+                } else {
+                    gymDetails.cheaper_plan = formatMoney(Number(gymDetails?.cheaper_plan));
+                };
+            };
+
             setEditMode(true);
         } else {
             setEditMode(false);
