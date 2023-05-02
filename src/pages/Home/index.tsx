@@ -49,7 +49,7 @@ export function Home() {
                     <Text color="red">Sentimos muito, houve um erro ao listar as academias...</Text>
                 </Center>
             )}
-            {gyms.length > 0 ? (
+            {gyms.length > 0 || !isLoading || !isError ? (
                 <Grid m={4} mt={20} maxH="90vh" gridTemplateColumns={["1fr 1fr 1fr", "1fr 1fr 1fr 1fr"]} gap="24px 0">
                     {gyms.map(gym => {
                         return (
