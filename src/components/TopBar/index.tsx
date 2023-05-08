@@ -1,11 +1,16 @@
 import { useCookies } from "react-cookie";
-import { Avatar, Flex, HStack, Image, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
+import { Avatar, Flex, HStack, Icon, Image, Menu, MenuButton, MenuItem, MenuList, Text } from "@chakra-ui/react";
 import { useJwt } from "react-jwt";
 import { DecodedUserData } from "../../types";
 import { AddGymModal } from "./AddGymModal";
 import { Link } from "react-router-dom";
+import { BsHeart, BsHeartFill } from "react-icons/bs";
+import { useContext } from "react";
+import { FavContext } from "../../contexts/FavContext";
 
 export function TopBar() {
+    const { favViewOnly, handleFavViewOnly } = useContext(FavContext);
+
     const [cookies, , removeCookies] = useCookies(['loginToken']);
     const { decodedToken: decodedUserData } = useJwt<DecodedUserData>(cookies.loginToken);
 
@@ -22,6 +27,10 @@ export function TopBar() {
                 <Text fontSize="1.2rem">Seja bem-vindo, {decodedUserData?.name}!</Text>
             </Flex>
             <HStack>
+                <Flex flexDir="column" align="center" mr={2} color="primary.500" cursor="pointer" onClick={handleFavViewOnly}>
+                    <Icon as={favViewOnly ? BsHeartFill : BsHeart} />
+                    <Text>Favoritos</Text>
+                </Flex>
                 <AddGymModal />
                 <Menu>
                     <MenuButton>

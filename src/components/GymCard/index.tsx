@@ -1,7 +1,8 @@
 import { Card, CardBody, Image, Stack, Heading, Text, Divider, CardFooter, ButtonGroup, Button, Icon } from "@chakra-ui/react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { BsHeart, BsHeartFill } from 'react-icons/bs';
 import { useNavigate } from "react-router-dom";
+import { loadFavGyms } from "../../utils/favGyms";
 
 interface GymCardProps {
     gymId: string;
@@ -15,9 +16,36 @@ export function GymCard({ gymId, image, name, description, cheaperPlan }: GymCar
     const navigate = useNavigate();
 
     const [mouseOverFav, setMouseOverFav] = useState<boolean>(false);
+    const [favGyms, setFavGyms] = useState<string[]>([]);
+
+    useEffect(() => {
+        setFavGyms(loadFavGyms());
+    }, []);
 
     const handleViewGym = () => {
         navigate(`/gym/${gymId}`, { replace: false });
+    };
+
+    const isFav = favGyms.find(gym => gym === gymId);
+
+    const handleFavGym = (event: React.MouseEvent<SVGSVGElement>) => {
+        const svg = event.currentTarget;
+        const newFavGyms = loadFavGyms();
+
+        if (!isFav) newFavGyms.push(gymId);
+        else {
+            newFavGyms.splice(newFavGyms.indexOf(gymId), 1);
+            if (svg) {
+                svg.style.fill = 'red';
+
+                setTimeout(() => {
+                    svg.style.fill = '#8E3EB1';
+                }, 250)
+            };
+        };
+
+        localStorage.setItem('favGyms', JSON.stringify(newFavGyms));
+        setFavGyms(newFavGyms);
     };
 
     return (
@@ -49,9 +77,10 @@ export function GymCard({ gymId, image, name, description, cheaperPlan }: GymCar
                         fontSize="2rem"
                         cursor="pointer"
                         color="primary.500"
-                        as={mouseOverFav ? BsHeartFill : BsHeart}
+                        as={mouseOverFav ? BsHeartFill : isFav ? BsHeartFill : BsHeart}
                         onMouseOver={() => setMouseOverFav(true)}
                         onMouseOut={() => setMouseOverFav(false)}
+                        onClick={handleFavGym}
                     />
                 </ButtonGroup>
             </CardFooter>

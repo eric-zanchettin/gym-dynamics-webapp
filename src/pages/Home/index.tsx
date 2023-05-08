@@ -1,11 +1,12 @@
 import { Center, CircularProgress, Grid, Icon, Text } from "@chakra-ui/react";
-import { useEffect, useState } from "react";
+import { Fragment, useContext, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { MdWarning } from "react-icons/md";
-import { FaSadCry } from "react-icons/fa";
+import { FaHeartBroken, FaSadCry } from "react-icons/fa";
 import { GymCard } from "../../components/GymCard";
 import { AddGymModal } from "../../components/TopBar/AddGymModal";
 import { api } from "../../services/api";
+import { FavContext } from "../../contexts/FavContext";
 
 interface Gyms {
     id: string;
@@ -16,6 +17,8 @@ interface Gyms {
 };
 
 export function Home() {
+    const { favGyms, favViewOnly } = useContext(FavContext);
+
     const [gyms, setGyms] = useState<Gyms[]>([]);
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [isError, setIsError] = useState<boolean>(false);
@@ -49,18 +52,42 @@ export function Home() {
                     <Text color="red">Sentimos muito, houve um erro ao listar as academias...</Text>
                 </Center>
             )}
+            {favGyms.length === 0 && favViewOnly && (
+                <>
+                    <Center m="40vh auto" flexDir="column" color="secondary.500" gap={2}>
+                        <Icon as={FaHeartBroken} fontSize="2rem" />
+                        <Text>Você não favoritou nenhuma academia ainda...</Text>
+                    </Center>
+                </>
+            )}
             {gyms.length > 0 || !isLoading || !isError ? (
                 <Grid m={4} mt={20} maxH="90vh" gridTemplateColumns={["1fr 1fr 1fr", "1fr 1fr 1fr 1fr"]} gap="24px 0">
                     {gyms.map(gym => {
                         return (
-                            <GymCard
-                                key={gym.id}
-                                gymId={gym.id}
-                                image={gym.img_src}
-                                name={gym.name}
-                                description={gym.description}
-                                cheaperPlan={gym.cheaper_plan}
-                            />
+                            <Fragment key={gym.id}>
+                                {favViewOnly ? (
+                                    <>
+                                        {favGyms.indexOf(gym.id) >= 0 && (
+                                            <GymCard
+                                                gymId={gym.id}
+                                                image={gym.img_src}
+                                                name={gym.name}
+                                                description={gym.description}
+                                                cheaperPlan={gym.cheaper_plan}
+                                            />
+                                        )}
+                                    </>
+                                ) : (
+                                    <GymCard
+                                        gymId={gym.id}
+                                        image={gym.img_src}
+                                        name={gym.name}
+                                        description={gym.description}
+                                        cheaperPlan={gym.cheaper_plan}
+                                    />
+                                )
+                                }
+                            </Fragment>
                         );
                     })}
                 </Grid>
